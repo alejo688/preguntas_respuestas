@@ -4,11 +4,13 @@ if (localStorage.getItem("correctAnswer") != undefined)
 if (localStorage.getItem("score") != undefined)
     localStorage.removeItem("score");
 
-    if (localStorage.getItem("numPregunta") != undefined)
+if (localStorage.getItem("numPregunta") != undefined)
     localStorage.removeItem("numPregunta");
 
 function beginApp()
 {
+    addQuestion();
+
     const app = document.getElementById("app");
     localStorage.setItem("score", "0");
     app.innerHTML = getQuestion();
@@ -34,8 +36,6 @@ function getQuestion()
     const respuesta3 = selPregunta.respuesta3.respuesta;
     const respuesta4 = selPregunta.respuesta4.respuesta;
 
-    console.log(selPregunta);
-
     if (selPregunta.respuesta1.correctAnswer)
         localStorage.setItem("correctAnswer", "a");
     else if (selPregunta.respuesta2.correctAnswer)
@@ -53,11 +53,11 @@ function getQuestion()
 function Answer(ans){
     const app = document.getElementById("app");
 
-    if (localStorage.getItem("correctAnswer") === ans) {
-        const score = parseInt(localStorage.getItem("score")) + 10;
-        const numPregunta = parseInt(localStorage.getItem("numPregunta"));
+    let score = parseInt(localStorage.getItem("score"))
 
-        console.log(numPregunta);
+    if (localStorage.getItem("correctAnswer") === ans) {
+        score += 10;
+        const numPregunta = parseInt(localStorage.getItem("numPregunta"));
 
         preguntas.splice(numPregunta, 1);
 
@@ -76,13 +76,15 @@ function Answer(ans){
 function youWin(score)
 {
     return `<h2>Felicidades has ganado</h2>
-    <h3>Puntuación: ${score} puntos</h3>`;
+    <h3>Puntuación: ${score} puntos</h3>
+    <button id="btn-start" class="btn-start" type="button" onclick="beginApp()">Volver a jugar</button>`;
 }
 
-function youLose()
+function youLose(score)
 {
     return `<h2>Lo sentimos, suerte para la proxima</h2>
-    <h3>Puntuación: ${score} puntos</h3>`;
+    <h3>Puntuación: ${score} puntos</h3>
+    <button id="btn-start" class="btn-start" type="button" onclick="beginApp()">Volver a jugar</button>`;
 }
 
 function getRandomArbitrary(max) {
